@@ -23,4 +23,5 @@ table inet filter {
           (chain_type_definition
             (chain_type)
             (hook_type)
+            (priority_value)
             (policy_values)))))))
