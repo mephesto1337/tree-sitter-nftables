@@ -1,0 +1,26 @@
+=====================
+Chain filter definition
+=====================
+
+table inet filter {
+    chain  input {
+        type filter hook input priority filter; policy drop;
+    }
+}
+
+---
+
+(config_file
+  (statements
+    (statement
+      (table_definition
+        (table_spec
+          (table_family)
+          (identifier))
+        (chain_definition
+          (chain_spec
+            (identifier))
+          (chain_type_definition
+            (chain_type)
+            (hook_type)
+            (policy_values)))))))

@@ -1,0 +1,31 @@
+================
+Table definition
+================
+
+table filter {}
+
+---
+
+(config_file
+  (statements
+    (statement
+      (table_definition
+        (table_spec
+          (identifier))))))
+
+=====================
+Table inet definition
+=====================
+
+table inet filter {}
+
+---
+
+(config_file
+  (statements
+    (statement
+      (table_definition
+        (table_spec
+          (table_family)
+          (identifier))))))
+

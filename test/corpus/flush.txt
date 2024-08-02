@@ -1,0 +1,12 @@
+================
+Flush statements
+================
+
+flush ruleset
+
+---
+
+(config_file
+  (statements
+    (statement
+      (flush_command))))
