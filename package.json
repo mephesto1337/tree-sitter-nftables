@@ -44,10 +44,11 @@
       "scope": "source.nftables",
       "injection-regex": "^nftables$",
       "filetypes": [
-        "nft"
+        "nft",
+        "nftables.conf"
       ],
-      "content-regex": "^#!.*\\bnft\\s+-f$",
-      "highlights": "queries/highlights.scm"
+      "highlights": "queries/highlights.scm",
+      "first-line-regex": "^#!.*\\bnft\\s+-f$"
     }
   ]
 }
