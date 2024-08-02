@@ -1,0 +1,711 @@
+[
+  {
+    "type": "chain_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "chain_spec",
+          "named": true
+        },
+        {
+          "type": "chain_type_definition",
+          "named": true
+        },
+        {
+          "type": "rule_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chain_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chain_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "chain_type_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "chain_type",
+          "named": true
+        },
+        {
+          "type": "hook_type",
+          "named": true
+        },
+        {
+          "type": "policy_values",
+          "named": true
+        },
+        {
+          "type": "priority_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "config_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "statements",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "destroy_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "table_spec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "flush_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "table_spec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "hook_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "jump",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "packet_match",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "protocol",
+          "named": true
+        },
+        {
+          "type": "table_family",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "policy_values",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "priority_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "protocol",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "reject",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "rule_action",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "rule_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rule_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rule_decision",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "jump",
+          "named": true
+        },
+        {
+          "type": "policy_values",
+          "named": true
+        },
+        {
+          "type": "reject",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rule_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "packet_match",
+          "named": true
+        },
+        {
+          "type": "rule_action",
+          "named": true
+        },
+        {
+          "type": "rule_decision",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "destroy_command",
+          "named": true
+        },
+        {
+          "type": "flush_command",
+          "named": true
+        },
+        {
+          "type": "table_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statements",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "table_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "chain_definition",
+          "named": true
+        },
+        {
+          "type": "table_spec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "table_family",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "table_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "table_family",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\n",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "accept",
+    "named": false
+  },
+  {
+    "type": "addr-unreachable",
+    "named": false
+  },
+  {
+    "type": "admin-prohibited",
+    "named": false
+  },
+  {
+    "type": "arp",
+    "named": false
+  },
+  {
+    "type": "bridge",
+    "named": false
+  },
+  {
+    "type": "chain",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "comment",
+    "named": false
+  },
+  {
+    "type": "counter",
+    "named": false
+  },
+  {
+    "type": "ct",
+    "named": false
+  },
+  {
+    "type": "destroy",
+    "named": false
+  },
+  {
+    "type": "dport",
+    "named": false
+  },
+  {
+    "type": "drop",
+    "named": false
+  },
+  {
+    "type": "dstnat",
+    "named": false
+  },
+  {
+    "type": "established",
+    "named": false
+  },
+  {
+    "type": "filter",
+    "named": false
+  },
+  {
+    "type": "flush",
+    "named": false
+  },
+  {
+    "type": "forward",
+    "named": false
+  },
+  {
+    "type": "hook",
+    "named": false
+  },
+  {
+    "type": "host",
+    "named": false
+  },
+  {
+    "type": "host-prohibited",
+    "named": false
+  },
+  {
+    "type": "host-unreachable",
+    "named": false
+  },
+  {
+    "type": "hour",
+    "named": false
+  },
+  {
+    "type": "icmp",
+    "named": false
+  },
+  {
+    "type": "icmpv6",
+    "named": false
+  },
+  {
+    "type": "icmpx",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "iif",
+    "named": false
+  },
+  {
+    "type": "iifname",
+    "named": false
+  },
+  {
+    "type": "inet",
+    "named": false
+  },
+  {
+    "type": "ingress",
+    "named": false
+  },
+  {
+    "type": "input",
+    "named": false
+  },
+  {
+    "type": "invalid",
+    "named": false
+  },
+  {
+    "type": "ip",
+    "named": false
+  },
+  {
+    "type": "ip6",
+    "named": false
+  },
+  {
+    "type": "ipv6-icmp",
+    "named": false
+  },
+  {
+    "type": "jump",
+    "named": false
+  },
+  {
+    "type": "l4proto",
+    "named": false
+  },
+  {
+    "type": "length",
+    "named": false
+  },
+  {
+    "type": "limit",
+    "named": false
+  },
+  {
+    "type": "mangle",
+    "named": false
+  },
+  {
+    "type": "meta",
+    "named": false
+  },
+  {
+    "type": "minute",
+    "named": false
+  },
+  {
+    "type": "nat",
+    "named": false
+  },
+  {
+    "type": "net-prohibited",
+    "named": false
+  },
+  {
+    "type": "net-unreachable",
+    "named": false
+  },
+  {
+    "type": "netdev",
+    "named": false
+  },
+  {
+    "type": "new",
+    "named": false
+  },
+  {
+    "type": "nfproto",
+    "named": false
+  },
+  {
+    "type": "no-route",
+    "named": false
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "oif",
+    "named": false
+  },
+  {
+    "type": "oifname",
+    "named": false
+  },
+  {
+    "type": "out",
+    "named": false
+  },
+  {
+    "type": "output",
+    "named": false
+  },
+  {
+    "type": "pkttype",
+    "named": false
+  },
+  {
+    "type": "policy",
+    "named": false
+  },
+  {
+    "type": "port-unreachable",
+    "named": false
+  },
+  {
+    "type": "postrouting",
+    "named": false
+  },
+  {
+    "type": "prerouting",
+    "named": false
+  },
+  {
+    "type": "priority",
+    "named": false
+  },
+  {
+    "type": "prot-unreachable",
+    "named": false
+  },
+  {
+    "type": "protocol",
+    "named": false
+  },
+  {
+    "type": "rate",
+    "named": false
+  },
+  {
+    "type": "raw",
+    "named": false
+  },
+  {
+    "type": "reject",
+    "named": false
+  },
+  {
+    "type": "related",
+    "named": false
+  },
+  {
+    "type": "route",
+    "named": false
+  },
+  {
+    "type": "ruleset",
+    "named": false
+  },
+  {
+    "type": "second",
+    "named": false
+  },
+  {
+    "type": "security",
+    "named": false
+  },
+  {
+    "type": "sport",
+    "named": false
+  },
+  {
+    "type": "srcnat",
+    "named": false
+  },
+  {
+    "type": "state",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "table",
+    "named": false
+  },
+  {
+    "type": "tcp",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "udp",
+    "named": false
+  },
+  {
+    "type": "with",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

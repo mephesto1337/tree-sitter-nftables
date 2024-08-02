@@ -1,0 +1,1242 @@
+{
+  "name": "nftables",
+  "rules": {
+    "config_file": {
+      "type": "REPEAT",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "statements"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "comment"
+          }
+        ]
+      }
+    },
+    "_statement_sep": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ";"
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
+        }
+      ]
+    },
+    "statements": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "statement"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ";"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "statement"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_end"
+        }
+      ]
+    },
+    "comment": {
+      "type": "PATTERN",
+      "value": "#[^\\n]*"
+    },
+    "_eol": {
+      "type": "PATTERN",
+      "value": "\\r?\\n"
+    },
+    "_end": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "comment"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_eol"
+        }
+      ]
+    },
+    "statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "flush_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "table_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "destroy_command"
+        }
+      ]
+    },
+    "flush_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "flush"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "ruleset"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "table_spec"
+            }
+          ]
+        }
+      ]
+    },
+    "destroy_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "destroy"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "table_spec"
+        }
+      ]
+    },
+    "table_spec": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "table"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "table_family"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "table_family": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ip"
+        },
+        {
+          "type": "STRING",
+          "value": "ip6"
+        },
+        {
+          "type": "STRING",
+          "value": "inet"
+        },
+        {
+          "type": "STRING",
+          "value": "arp"
+        },
+        {
+          "type": "STRING",
+          "value": "bridge"
+        },
+        {
+          "type": "STRING",
+          "value": "netdev"
+        }
+      ]
+    },
+    "protocol": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ip"
+        },
+        {
+          "type": "STRING",
+          "value": "ip6"
+        },
+        {
+          "type": "STRING",
+          "value": "icmp"
+        },
+        {
+          "type": "STRING",
+          "value": "udp"
+        },
+        {
+          "type": "STRING",
+          "value": "tcp"
+        },
+        {
+          "type": "STRING",
+          "value": "ipv6-icmp"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_]\\w*"
+    },
+    "table_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "table_spec"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "chain_definition"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "chain_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "chain_spec"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "chain_type_definition"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "rule_definition"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "chain_spec": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "chain"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "chain_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "filter"
+        },
+        {
+          "type": "STRING",
+          "value": "route"
+        },
+        {
+          "type": "STRING",
+          "value": "nat"
+        }
+      ]
+    },
+    "hook_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ingress"
+        },
+        {
+          "type": "STRING",
+          "value": "prerouting"
+        },
+        {
+          "type": "STRING",
+          "value": "input"
+        },
+        {
+          "type": "STRING",
+          "value": "forward"
+        },
+        {
+          "type": "STRING",
+          "value": "output"
+        },
+        {
+          "type": "STRING",
+          "value": "postrouting"
+        }
+      ]
+    },
+    "priority_value": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "raw"
+            },
+            {
+              "type": "STRING",
+              "value": "mangle"
+            },
+            {
+              "type": "STRING",
+              "value": "dstnat"
+            },
+            {
+              "type": "STRING",
+              "value": "filter"
+            },
+            {
+              "type": "STRING",
+              "value": "security"
+            },
+            {
+              "type": "STRING",
+              "value": "srcnat"
+            },
+            {
+              "type": "STRING",
+              "value": "dstnat"
+            },
+            {
+              "type": "STRING",
+              "value": "out"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "+"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "-"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "number"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "number": {
+      "type": "PATTERN",
+      "value": "\\d+"
+    },
+    "policy_values": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "accept"
+        },
+        {
+          "type": "STRING",
+          "value": "drop"
+        }
+      ]
+    },
+    "chain_type_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "chain_type"
+        },
+        {
+          "type": "STRING",
+          "value": "hook"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hook_type"
+        },
+        {
+          "type": "STRING",
+          "value": "priority"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "priority_value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_statement_sep"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "policy"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "policy_values"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_statement_sep"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "rule_decision": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "policy_values"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "jump"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reject"
+        }
+      ]
+    },
+    "jump": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "jump"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
+    "reject": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "reject"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_packet_action_reject"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "rule_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "packet_match"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "counter"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "rule_decision"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "rule_action"
+          }
+        }
+      ]
+    },
+    "packet_match": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_ct"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_proto"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_meta"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_port"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_meta_pkttype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_limit"
+        }
+      ]
+    },
+    "_packet_match_ct_values": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "established"
+        },
+        {
+          "type": "STRING",
+          "value": "related"
+        },
+        {
+          "type": "STRING",
+          "value": "new"
+        },
+        {
+          "type": "STRING",
+          "value": "invalid"
+        }
+      ]
+    },
+    "_packet_match_ct": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "ct"
+            },
+            {
+              "type": "STRING",
+              "value": "state"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_packet_match_ct_values"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_packet_match_ct_values"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_match_ct_values"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_match_if": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "iif"
+            },
+            {
+              "type": "STRING",
+              "value": "oif"
+            },
+            {
+              "type": "STRING",
+              "value": "iifname"
+            },
+            {
+              "type": "STRING",
+              "value": "oifname"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_match_proto": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "protocol"
+            },
+            {
+              "type": "STRING",
+              "value": "protocol"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "protocol"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "protocol"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "protocol"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_match_meta": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "meta"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_packet_match_meta_pkttype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_match_meta_length"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_match_meta_protocol"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_match_meta_nfproto"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_match_meta_l4proto"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_match_meta_pkttype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "pkttype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_packet_match_meta_pkttype_values"
+        }
+      ]
+    },
+    "_packet_match_meta_pkttype_values": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "host"
+        }
+      ]
+    },
+    "_packet_match_meta_length": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "length"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number"
+        }
+      ]
+    },
+    "_packet_match_meta_protocol": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "protocol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "protocol"
+        }
+      ]
+    },
+    "_packet_match_meta_nfproto": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "nfproto"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "table_family"
+        }
+      ]
+    },
+    "_packet_match_meta_l4proto": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "l4proto"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "protocol"
+        }
+      ]
+    },
+    "_packet_match_port": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "tcp"
+                },
+                {
+                  "type": "STRING",
+                  "value": "udp"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "sport"
+                },
+                {
+                  "type": "STRING",
+                  "value": "dport"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "number"
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "number"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "number"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_match_limit": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "limit"
+        },
+        {
+          "type": "STRING",
+          "value": "rate"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number"
+        },
+        {
+          "type": "STRING",
+          "value": "/"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "second"
+            },
+            {
+              "type": "STRING",
+              "value": "minute"
+            },
+            {
+              "type": "STRING",
+              "value": "hour"
+            }
+          ]
+        }
+      ]
+    },
+    "rule_action": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "rule_comment"
+        }
+      ]
+    },
+    "rule_comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
+    "_packet_action_reject": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "with"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_packet_action_reject_icmp"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_action_reject_icmpv6"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_packet_action_reject_icmpx"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_action_reject_icmp": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "icmp"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "net-unreachable"
+            },
+            {
+              "type": "STRING",
+              "value": "host-unreachable"
+            },
+            {
+              "type": "STRING",
+              "value": "prot-unreachable"
+            },
+            {
+              "type": "STRING",
+              "value": "port-unreachable"
+            },
+            {
+              "type": "STRING",
+              "value": "net-prohibited"
+            },
+            {
+              "type": "STRING",
+              "value": "host-prohibited"
+            },
+            {
+              "type": "STRING",
+              "value": "admin-prohibited"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_action_reject_icmpv6": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "icmpv6"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "no-route"
+            },
+            {
+              "type": "STRING",
+              "value": "admin-prohibited"
+            },
+            {
+              "type": "STRING",
+              "value": "addr-unreachable"
+            },
+            {
+              "type": "STRING",
+              "value": "port-unreachable"
+            }
+          ]
+        }
+      ]
+    },
+    "_packet_action_reject_icmpx": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "icmpx"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "admin-prohibited"
+            },
+            {
+              "type": "STRING",
+              "value": "port-unreachable"
+            },
+            {
+              "type": "STRING",
+              "value": "no-route"
+            },
+            {
+              "type": "STRING",
+              "value": "host-unreachable"
+            }
+          ]
+        }
+      ]
+    },
+    "string": {
+      "type": "PATTERN",
+      "value": "\"[^\"]+\""
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
