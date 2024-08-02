@@ -14,10 +14,12 @@ module.exports = grammar({
       $.comment
     )),
 
+    _statement_sep: _ => choice(';', '\n'),
+
     statements: $ => seq(
       $.statement,
       repeat(seq(';', $.statement)),
-      $._end,
+      $._end
     ),
 
     comment: (_) => /#[^\n]*/,
@@ -39,7 +41,7 @@ module.exports = grammar({
 
     table_spec: $ => seq('table', optional($.table_family), $.identifier),
 
-    table_family: $ => choice(
+    table_family: _ => choice(
       'ip',
       'ip6',
       'inet',
@@ -47,11 +49,12 @@ module.exports = grammar({
       'bridge',
       'netdev',
     ),
-    protocol: $ => choice(
+
+    protocol: _ => choice(
       'ip', 'ip6', 'icmp', 'udp', 'tcp', 'ipv6-icmp'
     ),
 
-    identifier: $ => /[a-zA-Z_]\w*/,
+    identifier: _ => /[a-zA-Z_]\w*/,
 
     table_definition: $ => seq(
       $.table_spec,
@@ -71,8 +74,10 @@ module.exports = grammar({
     chain_spec: $ => seq('chain', $.identifier),
 
     chain_type: $ => choice('filter', 'route', 'nat'),
+
     hook_type: $ => choice('ingress', 'prerouting', 'input', 'forward', 'output', 'postrouting'),
-    _priority_value: $ => seq(
+
+    priority_value: $ => seq(
       choice('raw', 'mangle', 'dstnat', 'filter', 'security', 'srcnat', 'dstnat', 'out'),
       optional(seq(
         choice('+', '-'),
@@ -82,7 +87,7 @@ module.exports = grammar({
 
     number: $ => /\d+/,
 
-    policy_values: $ => choice('accept', 'drop', 'reject'),
+    policy_values: $ => choice('accept', 'drop'),
 
     chain_type_definition: $ => seq(
       'type',
@@ -90,18 +95,22 @@ module.exports = grammar({
       'hook',
       $.hook_type,
       'priority',
-      $._priority_value,
-      ';',
+      $.priority_value,
+      $._statement_sep,
       optional(
-        seq('policy', $.policy_values, ';')
+        seq('policy', $.policy_values, $._statement_sep),
       )
     ),
-    rule_decision: $ => choice($.policy_values, 'jump'),
+    rule_decision: $ => choice($.policy_values, $.jump, $.reject),
+
+    jump: $ => seq('jump', $.identifier),
+
+    reject: $ => seq('reject', optional($._packet_action_reject)),
 
     rule_definition: $ => seq(
       repeat($.packet_match),
       choice('counter', $.rule_decision),
-      repeat($.packet_action),
+      repeat($.rule_action),
     ),
 
     packet_match: $ => choice(
@@ -131,7 +140,7 @@ module.exports = grammar({
     _packet_match_meta_pkttype: $ => seq('pkttype', $._packet_match_meta_pkttype_values),
     _packet_match_meta_pkttype_values: $ => choice('host'),
     _packet_match_meta_length: $ => seq('length', $.number),
-    _packet_match_meta_protocol: $ => seq('protocol', $.identifier),
+    _packet_match_meta_protocol: $ => seq('protocol', $.protocol),
     _packet_match_meta_nfproto: $ => seq('nfproto', $.table_family),
     _packet_match_meta_l4proto: $ => seq('l4proto', $.protocol),
 
@@ -139,9 +148,10 @@ module.exports = grammar({
 
     _packet_match_limit: $ => seq('limit', 'rate', $.number, '/', choice('second', 'minute', 'hour')),
 
-    packet_action: $ => choice($._packet_action_comment, $._packet_action_reject),
+    rule_action: $ => choice($.rule_comment),
 
-    _packet_action_comment: $ => seq('comment', $.string),
+    rule_comment: $ => seq('comment', $.string),
+
     _packet_action_reject: $ => seq('with', choice(
       $._packet_action_reject_icmp,
       $._packet_action_reject_icmpv6,
@@ -156,6 +166,7 @@ module.exports = grammar({
       'host-prohibited',
       'admin-prohibited',
     )),
+
     _packet_action_reject_icmpv6: $ => seq('icmpv6', 'type', choice(
       'no-route',
       'admin-prohibited',
