@@ -1,0 +1,17 @@
+{
+  "name": "tree-sitter-nftables",
+  "version": "1.0.0",
+  "description": "tree-sitter parser for nftables rules",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tree-sitter",
+    "nftables",
+    "parser",
+    "rules"
+  ],
+  "author": "Thomas WACHE",
+  "license": "ISC"
+}
